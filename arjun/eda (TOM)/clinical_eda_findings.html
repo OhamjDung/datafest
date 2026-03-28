@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinical EDA Findings</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --panel: #fffaf2;
+      --ink: #1f2933;
+      --muted: #52606d;
+      --accent: #8d5b2a;
+      --accent-soft: #ead9c4;
+      --border: #d9c7b0;
+      --good: #2d6a4f;
+      --warn: #b76e00;
+      --bad: #a63d40;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top right, rgba(141, 91, 42, 0.12), transparent 28%),
+        linear-gradient(180deg, #f8f3ea 0%, var(--bg) 100%);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 56px;
+    }
+
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 14px 36px rgba(62, 43, 28, 0.08);
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      color: #402814;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #59381c;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .lede {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 78ch;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .stat {
+      background: linear-gradient(180deg, #fffdf8 0%, #f8efe2 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat .label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .stat .value {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #402814;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 10px 28px rgba(62, 43, 28, 0.06);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #5f3b1e;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 10px 0 0;
+    }
+
+    li {
+      margin: 0 0 10px;
+    }
+
+    .note {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--accent);
+      background: rgba(234, 217, 196, 0.45);
+      border-radius: 12px;
+    }
+
+    .status-good { color: var(--good); font-weight: 700; }
+    .status-warn { color: var(--warn); font-weight: 700; }
+    .status-bad { color: var(--bad); font-weight: 700; }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid #e8dccd;
+      vertical-align: top;
+    }
+
+    .mini-table th {
+      color: #5e4631;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Clinical EDA Findings</h1>
+      <p class="lede">
+        This summary reflects the observed contents of <strong>social_det_demographics_inpatient.csv</strong> only.
+        The file is an aggregated social-determinants table, so the findings below are framed at the stratum level and
+        avoid unsupported patient-level or causal claims.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="label">Rows</span>
+          <span class="value">5,139</span>
+        </div>
+        <div class="stat">
+          <span class="label">Columns</span>
+          <span class="value">7</span>
+        </div>
+        <div class="stat">
+          <span class="label">Semantic Missingness</span>
+          <span class="value">38.04%</span>
+        </div>
+        <div class="stat">
+          <span class="label">avg_hours Range</span>
+          <span class="value">1.25 to 2889.3</span>
+        </div>
+        <div class="stat">
+          <span class="label">count Range</span>
+          <span class="value">1 to 19921</span>
+        </div>
+        <div class="stat">
+          <span class="label">avg_hours vs count</span>
+          <span class="value">r = -0.0377</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <div class="tag">Statistical Lens</div>
+        <h2>Distribution, Missingness, and Stability</h2>
+        <ul>
+          <li><span class="status-good">Observed schema:</span> the table has 5 categorical descriptors or grouping fields plus 2 numeric fields, <code>avg_hours</code> and <code>count</code>.</li>
+          <li><span class="status-warn">Literal missingness:</span> no blank fields were detected in the raw import, but 1,955 rows carry semantic missingness patterns such as declined, refused, unable, unknown-like responses, or never assessed.</li>
+          <li><span class="status-warn">Right-tail behavior:</span> <code>avg_hours</code> ranges from 1.25 to 2889.3 with 17 rows above 1000, indicating a long tail that should be treated as possible outlier territory.</li>
+          <li><span class="status-good">Count heterogeneity:</span> subgroup counts range from 1 to 19921, so raw row-level comparisons will overstate the influence of very small strata unless weighted by <code>count</code>.</li>
+          <li><span class="status-good">Correlation check:</span> the Pearson association between <code>avg_hours</code> and <code>count</code> is near zero globally, which suggests that simple linear dependence is weak, even though extreme rows still cluster in very small cells.</li>
+        </ul>
+
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Top DemoField strata</th>
+              <th>Rows</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>PatientBirthYearBin</td><td>1247</td></tr>
+            <tr><td>FirstRace</td><td>626</td></tr>
+            <tr><td>MaritalStatus</td><td>620</td></tr>
+            <tr><td>SmokingStatus</td><td>585</td></tr>
+            <tr><td>OmbRace</td><td>578</td></tr>
+          </tbody>
+        </table>
+
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Top Domains</th>
+              <th>Rows</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Depression</td><td>945</td></tr>
+            <tr><td>physical activity</td><td>722</td></tr>
+            <tr><td>stress</td><td>530</td></tr>
+            <tr><td>Utilities</td><td>515</td></tr>
+            <tr><td>Alcohol Use</td><td>496</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel">
+        <div class="tag">Engineering Lens</div>
+        <h2>Reproducibility and Pipeline Design</h2>
+        <ul>
+          <li><span class="status-good">Pipeline shape:</span> intake should begin with hard schema assertions for the 7 observed columns so the notebook fails fast if upstream structure changes.</li>
+          <li><span class="status-good">Type strategy:</span> cast <code>avg_hours</code> and <code>count</code> numerically, and parse <code>Answer</code> numerically only when the value is truly numeric for the specific question.</li>
+          <li><span class="status-good">Feature engineering:</span> create grounded helper fields such as <code>semantic_missing_flag</code>, <code>rare_stratum_flag</code>, <code>domain_question_key</code>, <code>log_count</code>, and question-specific ordinal encodings.</li>
+          <li><span class="status-warn">Aggregation awareness:</span> because the file is already grouped, the notebook should avoid treating each row as one patient. Weighted summaries using <code>count</code> are safer for domain and question comparisons.</li>
+          <li><span class="status-good">Output design:</span> save intermediate profiling tables, flagged outlier rows, and issue logs back into the <code>eda</code> folder so the analysis remains reviewable and repeatable.</li>
+        </ul>
+
+        <div class="note">
+          Recommended engineering checkpoints: schema validation, semantic missingness normalization, outlier detection within comparable groups, and explicit separation of stable patterns from count-driven artifacts.
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="tag">Clinical Lens</div>
+        <h2>Domain Constraints and Readmission Limits</h2>
+        <ul>
+          <li><span class="status-bad">Readmission infeasibility:</span> the file does not contain patient identifiers, encounter identifiers, admission or discharge dates, index admission markers, or explicit readmission labels. A CMS-style or hospital-style readmission definition cannot be derived from this file alone.</li>
+          <li><span class="status-warn">Clinical QA concern:</span> <code>PatientBirthYearBin = 2025</code> appears in the data. This may be valid only for newborn admissions or may indicate a binning or data-entry issue that needs review.</li>
+          <li><span class="status-warn">Interpretation guardrail:</span> <code>avg_hours</code> is present but not clinically defined in the file. Any association with depression, physical activity, alcohol use, or social needs should be treated as exploratory rather than causal or operationally final.</li>
+          <li><span class="status-good">Useful clinical use case:</span> this file is still suitable for social-determinant response-pattern EDA, subgroup stability checks, and documentation-quality review.</li>
+        </ul>
+
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Extreme avg_hours examples</th>
+              <th>Observed detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PatientBirthYearBin / Depression</td>
+              <td>DemoValue 2025, Answer 22, avg_hours 2889.30, count 1</td>
+            </tr>
+            <tr>
+              <td>OmbRace / physical activity</td>
+              <td>Asked but No Answer, Answer 2 days, avg_hours 1554.23, count 1</td>
+            </tr>
+            <tr>
+              <td>FirstRace / physical activity</td>
+              <td>Patient Refused, Answer 2 days, avg_hours 1554.23, count 1</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <p class="footer">
+      This HTML report was generated from the observed CSV schema and local profiling results only. Any clinical rule,
+      coding-system mapping, or readmission standard not directly present in the file should be treated as requiring
+      separate domain lookup before use.
+    </p>
+  </main>
+</body>
+</html>
